@@ -61,7 +61,7 @@ def _stride_size(node, name_to_node):
     stride_x = t[2]
   else:
     strides_attr = node.attr["strides"]
-    tf.logging.vlog(4, "strides_attr = %s", strides_attr)
+    # tf.logging.vlog(4, "strides_attr = %s", strides_attr)
     stride_y = strides_attr.list.i[1]
     stride_x = strides_attr.list.i[2]
   return stride_x, stride_y
@@ -100,7 +100,7 @@ def _conv_kernel_size(node, name_to_node):
     raise ValueError(
         "Weight layer {} does not have rank 4. Instead, it has: {}".format(
             weights_layer_param_name, len(shape_dim)))
-  tf.logging.vlog(4, "weight shape = %s", shape_dim)
+  # tf.logging.vlog(4, "weight shape = %s", shape_dim)
   kernel_size_y = shape_dim[0].size
   kernel_size_x = shape_dim[1].size
 
@@ -127,7 +127,7 @@ def _padding_size_conv_pool(node, kernel_size, stride, input_resolution=None):
   # The padding depends on kernel size, and may depend on input size. If it
   # depends on input size and input_resolution is None, we raise an exception.
   padding_attr = node.attr["padding"]
-  tf.logging.vlog(4, "padding_attr = %s", padding_attr)
+  # tf.logging.vlog(4, "padding_attr = %s", padding_attr)
   if padding_attr.s in _VALID_PADDING:
     total_padding = 0
     padding = 0
@@ -149,11 +149,11 @@ def _padding_size_conv_pool(node, kernel_size, stride, input_resolution=None):
       else:
         total_padding = None
         padding = None
-        tf.logging.warning(
-            "Padding depends on input size, which means that the effective "
-            "padding may be different depending on the input image "
-            "dimensionality. In this case, alignment check will be skipped. If"
-            " you know the input resolution, please set it.")
+        # tf.logging.warning(
+        #     "Padding depends on input size, which means that the effective "
+        #     "padding may be different depending on the input image "
+        #     "dimensionality. In this case, alignment check will be skipped. If"
+        #     " you know the input resolution, please set it.")
     else:
       # First, compute total_padding based on documentation.
       if input_resolution % stride == 0:
@@ -279,9 +279,9 @@ def get_layer_params(node, name_to_node, input_resolution=None, force=False):
   Raises:
     ValueError: If layer op is unknown and force is False.
   """
-  tf.logging.vlog(3, "node.name = %s", node.name)
-  tf.logging.vlog(3, "node.op = %s", node.op)
-  tf.logging.vlog(4, "node = %s", node)
+  # tf.logging.vlog(3, "node.name = %s", node.name)
+  # tf.logging.vlog(3, "node.op = %s", node.op)
+  # tf.logging.vlog(4, "node = %s", node)
   if node.op == "Conv2D" or node.op == "DepthwiseConv2dNative":
     stride_x, stride_y = _stride_size(node, name_to_node)
     kernel_size_x, kernel_size_y = _conv_kernel_size(node, name_to_node)
