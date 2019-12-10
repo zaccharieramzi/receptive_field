@@ -249,8 +249,8 @@ def compute_receptive_field_from_graph_def(graph_def,
     #   continue
 
     # When we find input node, we can stop.
-    if node.name == input_node:
-      break
+    # if node.name == input_node:
+    #   break
 
     # Loop until we find the output node. All nodes before finding the output
     # one are irrelevant, so they can be skipped.
